@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        Attack();
     }
 
     void Movement()
@@ -39,13 +40,14 @@ public class Player : MonoBehaviour
         }
 
         _rigid.velocity = new Vector2(move * _moveSpeed, _rigid.velocity.y);
+        Attack();
         _playerAnimation.Move(move);
     }
 
     private bool IsGrounded()
     {
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, 1<<8);
-        Debug.DrawRay(transform.position, Vector2.down, Color.red);
+        //Debug.DrawRay(transform.position, Vector2.down, Color.red);
         if(hitInfo.collider != null)
         {
             if(_resetJump == false)
@@ -63,5 +65,13 @@ public class Player : MonoBehaviour
         _resetJump = true;
         yield return new WaitForSeconds(0.1f);
         _resetJump = false;
+    }
+
+    void Attack()
+    {
+        if(Input.GetMouseButtonDown(0) && IsGrounded())
+        {
+            _playerAnimation.Attack();
+        }
     }
 }
