@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
-{
-    private Rigidbody2D _rigid;
-
+{   
     private float _moveSpeed = 3.5f;
     private float _jumpForce = 5.0f;
     private bool _resetJump = false;
     private bool _grounded = false;
 
+    private Rigidbody2D _rigid;
     private PlayerAnimation _playerAnimation;
 
     // Start is called before the first frame update
