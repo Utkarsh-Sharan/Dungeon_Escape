@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Spider : Enemy
 {
-    // Update is called once per frame
-    public override void Update()
+    //use this for initialization
+    public override void Init()
     {
-        
+        base.Init();
     }
 }
