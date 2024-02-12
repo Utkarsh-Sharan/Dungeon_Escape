@@ -13,10 +13,9 @@ public abstract class Enemy : MonoBehaviour
 
     protected Animator anim;
     protected SpriteRenderer sprite;
+    protected Transform player;
 
     protected bool isHit;
-
-    protected Transform player;
 
     private void Start()
     {
