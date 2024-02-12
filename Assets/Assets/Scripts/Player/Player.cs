@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {   
     private float _moveSpeed = 3.5f;
     private float _jumpForce = 5.0f;
     private bool _resetJump = false;
     private bool _grounded = false;
+
+    public int Health { get; set; }
 
     private Rigidbody2D _rigid;
     private PlayerAnimation _playerAnimation;
@@ -72,5 +74,10 @@ public class Player : MonoBehaviour
         {
             _playerAnimation.Attack();
         }
+    }
+
+    public void Damage()
+    {
+
     }
 }
