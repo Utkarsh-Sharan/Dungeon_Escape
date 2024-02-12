@@ -14,6 +14,10 @@ public abstract class Enemy : MonoBehaviour
     protected Animator anim;
     protected SpriteRenderer sprite;
 
+    protected bool isHit;
+
+    protected Transform player;
+
     private void Start()
     {
         Init();
@@ -21,27 +25,21 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Init()
     {
+        player = GameObject.Find("Player").GetComponent<Transform>();
         anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     public virtual void Update()
     {
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && anim.GetBool("InCombat") == false)
             return;
         Movement();
     }
 
     public virtual void Movement()
     {
-        if (currentTarget == pointA.position)
-        {
-            sprite.flipX = true;
-        }
-        else if (currentTarget == pointB.position)
-        {
-            sprite.flipX = false;
-        }
+        FlipSprite();
 
         if (transform.position == pointA.position)
         {
@@ -55,6 +53,38 @@ public abstract class Enemy : MonoBehaviour
             anim.SetTrigger("Idle");
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        if (isHit == false)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        }
+
+        float distance = Vector3.Distance(transform.position, player.position);     //if distance > 2, enemies start moving again
+        if(distance > 2)
+        {
+            isHit = false;
+            anim.SetBool("InCombat", false);
+        }
+
+        Vector3 direction = transform.position - player.position;       //always face towards player when in combat
+        if(anim.GetBool("InCombat") == true && direction.x > 0.0f)
+        {
+            sprite.flipX = true;
+        }
+        else if(anim.GetBool("InCombat") == true && direction.x < 0.0f)
+        {
+            sprite.flipX = false;
+        }
+    }
+
+    protected virtual void FlipSprite()
+    {
+        if (currentTarget == pointA.position)
+        {
+            sprite.flipX = true;
+        }
+        else if (currentTarget == pointB.position)
+        {
+            sprite.flipX = false;
+        }
     }
 }
