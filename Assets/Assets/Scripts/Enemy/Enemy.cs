@@ -16,6 +16,7 @@ public abstract class Enemy : MonoBehaviour
     protected Transform player;
 
     protected bool isHit;
+    protected bool isDead;
 
     private void Start()
     {
@@ -33,7 +34,9 @@ public abstract class Enemy : MonoBehaviour
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && anim.GetBool("InCombat") == false)
             return;
-        Movement();
+
+        if(!isDead)
+            Movement();
     }
 
     public virtual void Movement()

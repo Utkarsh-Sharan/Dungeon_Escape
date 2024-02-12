@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Spider : Enemy, IDamageable
@@ -25,7 +26,8 @@ public class Spider : Enemy, IDamageable
         Health--;
         if(Health < 1)
         {
-            Destroy(this.gameObject);
+            isDead = true;
+            anim.SetTrigger("Death");
         }
     }
 
