@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamageable
 {   
     private float _moveSpeed = 3.5f;
-    private float _jumpForce = 5.0f;
+    private float _jumpForce = 6.0f;
     private bool _resetJump = false;
     private bool _grounded = false;
 
