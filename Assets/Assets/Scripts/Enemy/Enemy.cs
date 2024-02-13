@@ -7,6 +7,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int health;
     [SerializeField] protected int gems;
     [SerializeField] protected float speed;
+    [SerializeField] protected GameObject _diamondPrefab;
 
     [SerializeField] protected Transform pointA, pointB;
     protected Vector3 currentTarget;

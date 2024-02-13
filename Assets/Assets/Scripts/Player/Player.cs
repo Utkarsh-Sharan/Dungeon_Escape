@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IDamageable
-{   
+{
+    //Health property
+    public int Health { get; set; }
+
+    //Player movement
     private float _moveSpeed = 3.5f;
     private float _jumpForce = 6.0f;
     private bool _resetJump = false;
     private bool _grounded = false;
 
-    public int Health { get; set; }
+    //Collectibles
+    public int diamonds;
 
+    //Handles
     private Rigidbody2D _rigid;
     private PlayerAnimation _playerAnimation;
 
