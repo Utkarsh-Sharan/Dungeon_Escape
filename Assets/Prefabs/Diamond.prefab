@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4357bed7acb4ce14b9d424f15cffed0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gems: 2
 --- !u!61 &-782299684309244916
 BoxCollider2D:
   m_ObjectHideFlags: 0

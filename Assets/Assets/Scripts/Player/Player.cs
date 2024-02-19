@@ -9,7 +9,7 @@ public class Player : MonoBehaviour, IDamageable
 
     //Player movement
     private float _moveSpeed = 3.5f;
-    private float _jumpForce = 6.0f;
+    private float _jumpForce = 7.0f;
     private bool _resetJump = false;
     private bool _grounded = false;
 
