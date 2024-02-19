@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +23,9 @@ public class UIManager : MonoBehaviour
     }
 
     [SerializeField] private Text _playerGemCount;
+    [SerializeField] private Text _gemCountUI;
     [SerializeField] private Image _selectionImg;
+    [SerializeField] private Image[] _healthBars = new Image[4];
 
     private void Awake()
     {
@@ -37,5 +40,21 @@ public class UIManager : MonoBehaviour
     public void OpenShop(int gemCount)
     {
         _playerGemCount.text = gemCount + "G";
+    }
+
+    public void UpdateGemCount(int count)
+    {
+        _gemCountUI.text = "" + count;
+    }
+
+    public void UpdateLives(int livesRemaining)
+    {
+        for(int i = 0; i <= livesRemaining; i++)
+        {
+            if(i == livesRemaining)
+            {
+                _healthBars[i].enabled = false;
+            }
+        }
     }
 }
