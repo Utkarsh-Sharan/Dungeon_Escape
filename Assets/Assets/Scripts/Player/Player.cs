@@ -20,16 +20,23 @@ public class Player : MonoBehaviour, IDamageable
     private Rigidbody2D _rigid;
     private PlayerAnimation _playerAnimation;
 
+    public bool isDead;
+
     // Start is called before the first frame update
     void Start()
     {
         _rigid = GetComponent<Rigidbody2D>();
         _playerAnimation = GetComponent<PlayerAnimation>();
+
+        Health = 4;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(isDead) 
+            return;
+
         Movement();
         Attack();
     }
@@ -84,6 +91,22 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
+        if(!isDead)
+        {
+            Health--;
+            UIManager.Instance.UpdateLives(Health);
 
+            if (Health < 1)
+            {
+                isDead = true;
+                _playerAnimation.Dead();
+            }
+        }       
+    }
+
+    public void AddGems(int amount)
+    {
+        diamonds += amount;
+        UIManager.Instance.UpdateGemCount(diamonds);
     }
 }

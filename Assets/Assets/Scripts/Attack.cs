@@ -22,7 +22,7 @@ public class Attack : MonoBehaviour
 
     IEnumerator AttackRoutine()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.7f);
         _canAttack = true;
     }
 }
