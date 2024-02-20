@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -31,7 +30,7 @@ public class Player : MonoBehaviour, IDamageable
         _playerInputActions = new PlayerInputActions();
         _playerInputActions.Player.Enable();
         _playerInputActions.Player.Jump.performed += Jump;
-        _playerInputActions.Player.Movement.performed += Movement;
+        _playerInputActions.Player.Attack.performed += Attack;
     }
 
     // Start is called before the first frame update
@@ -44,27 +43,12 @@ public class Player : MonoBehaviour, IDamageable
     }
 
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
         Vector2 inputDirection = _playerInputActions.Player.Movement.ReadValue<Vector2>();
         _grounded = IsGrounded();
 
         _rigid.velocity = new Vector2(inputDirection.x * _moveSpeed, _rigid.velocity.y);
-        _playerAnimation.Move(inputDirection.x);
-
-        Attack();
-    }
-
-    private void Movement(InputAction.CallbackContext context)
-    {
-        if (isDead)
-            return;
-
-        Vector2 inputDirection = context.ReadValue<Vector2>();
-        _grounded = IsGrounded();
-
-        _rigid.velocity = new Vector2(inputDirection.x * _moveSpeed, _rigid.velocity.y);
-        Attack();
         _playerAnimation.Move(inputDirection.x);
     }
 
@@ -101,9 +85,9 @@ public class Player : MonoBehaviour, IDamageable
         _resetJump = false;
     }
 
-    void Attack()
+    void Attack(InputAction.CallbackContext context)
     {
-        if(Input.GetMouseButtonDown(0) && IsGrounded())
+        if(context.performed && IsGrounded())
         {
             _playerAnimation.Attack();
         }
