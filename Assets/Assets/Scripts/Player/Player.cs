@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.InputSystem;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -17,13 +20,22 @@ public class Player : MonoBehaviour, IDamageable
     public int diamonds;
 
     //Handles
+    private PlayerInputActions _playerInputActions;
     private Rigidbody2D _rigid;
     private PlayerAnimation _playerAnimation;
 
     public bool isDead;
 
+    private void Awake()
+    {
+        _playerInputActions = new PlayerInputActions();
+        _playerInputActions.Player.Enable();
+        _playerInputActions.Player.Jump.performed += Jump;
+        _playerInputActions.Player.Movement.performed += Movement;
+    }
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _rigid = GetComponent<Rigidbody2D>();
         _playerAnimation = GetComponent<PlayerAnimation>();
@@ -32,30 +44,38 @@ public class Player : MonoBehaviour, IDamageable
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if(isDead) 
-            return;
+        Vector2 inputDirection = _playerInputActions.Player.Movement.ReadValue<Vector2>();
+        _grounded = IsGrounded();
 
-        Movement();
+        _rigid.velocity = new Vector2(inputDirection.x * _moveSpeed, _rigid.velocity.y);
+        _playerAnimation.Move(inputDirection.x);
+
         Attack();
     }
 
-    void Movement()
+    private void Movement(InputAction.CallbackContext context)
     {
-        float move = Input.GetAxisRaw("Horizontal");
+        if (isDead)
+            return;
+
+        Vector2 inputDirection = context.ReadValue<Vector2>();
         _grounded = IsGrounded();
 
-        if(Input.GetKeyDown(KeyCode.Space) && IsGrounded() == true)
+        _rigid.velocity = new Vector2(inputDirection.x * _moveSpeed, _rigid.velocity.y);
+        Attack();
+        _playerAnimation.Move(inputDirection.x);
+    }
+
+    private void Jump(InputAction.CallbackContext context)
+    {
+        if (!isDead && context.performed && IsGrounded() == true)
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, _jumpForce);
             StartCoroutine(ResetJumpRoutine());
             _playerAnimation.Jump(true);
         }
-
-        _rigid.velocity = new Vector2(move * _moveSpeed, _rigid.velocity.y);
-        Attack();
-        _playerAnimation.Move(move);
     }
 
     private bool IsGrounded()
