@@ -14,18 +14,18 @@ public class PlayerAnimation : MonoBehaviour
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
     }
 
-    public void Move(float move)
+    public void Move(float inputDir)
     {
-        if(move < 0)
+        if(inputDir < 0)
         {
             _playerSprite.flipX = true;
         }
-        else if(move > 0)
+        else if(inputDir > 0)
         {
             _playerSprite.flipX = false;
         }
 
-        _anim.SetFloat("Move", Mathf.Abs(move));
+        _anim.SetFloat("Move", Mathf.Abs(inputDir));
     }
 
     public void Jump(bool jumping)
