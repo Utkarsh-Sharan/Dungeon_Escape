@@ -15,6 +15,13 @@ public class Player : MonoBehaviour, IDamageable
     private bool _resetJump = false;
     private bool _grounded = false;
 
+    //Player dash
+    private bool _canDash = true;
+    private bool _isDashing;
+    private float _dashPower = 24f;
+    private float _dashingTime = 0.1f;
+    private float _dashingCooldown = 1f;
+
     //Collectibles
     public int diamonds;
 
@@ -31,6 +38,7 @@ public class Player : MonoBehaviour, IDamageable
         _playerInputActions.Player.Enable();
         _playerInputActions.Player.Jump.performed += Jump;
         _playerInputActions.Player.Attack.performed += Attack;
+        _playerInputActions.Player.Dash.performed += Dash;
     }
 
     // Start is called before the first frame update
@@ -45,6 +53,9 @@ public class Player : MonoBehaviour, IDamageable
     // Update is called once per frame
     private void FixedUpdate()
     {
+        if(isDead || _isDashing)
+            return;
+
         Vector2 inputDirection = _playerInputActions.Player.Movement.ReadValue<Vector2>();
         _grounded = IsGrounded();
 
@@ -54,6 +65,9 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Jump(InputAction.CallbackContext context)
     {
+        if(_isDashing) 
+            return;
+
         if (!isDead && context.performed && IsGrounded() == true)
         {
             _rigid.velocity = new Vector2(_rigid.velocity.x, _jumpForce);
@@ -85,12 +99,38 @@ public class Player : MonoBehaviour, IDamageable
         _resetJump = false;
     }
 
-    void Attack(InputAction.CallbackContext context)
+    private void Attack(InputAction.CallbackContext context)
     {
         if(context.performed && IsGrounded())
         {
             _playerAnimation.Attack();
         }
+    }
+
+    private void Dash(InputAction.CallbackContext context)
+    {
+        if(context.performed && _canDash)
+        {
+            _canDash = false;
+            _isDashing = true;
+            float originalGravity = _rigid.gravityScale;
+            _rigid.gravityScale = 0;
+
+            Vector2 inputDirection = _playerInputActions.Player.Movement.ReadValue<Vector2>();
+            _rigid.velocity = new Vector2(inputDirection.x * _dashPower, 0f);
+
+            StartCoroutine(DashExecution(originalGravity));
+        }      
+    }
+
+    private IEnumerator DashExecution(float originalGravity)
+    {
+        yield return new WaitForSeconds(_dashingTime);
+        _rigid.gravityScale = originalGravity;
+        _isDashing = false;
+
+        yield return new WaitForSeconds(_dashingCooldown);
+        _canDash = true;
     }
 
     public void Damage()
