@@ -119,6 +119,7 @@ public class Player : MonoBehaviour, IDamageable
             Vector2 inputDirection = _playerInputActions.Player.Movement.ReadValue<Vector2>();
             _rigid.velocity = new Vector2(inputDirection.x * _dashPower, 0f);
 
+            _playerAnimation.Dash();
             StartCoroutine(DashExecution(originalGravity));
         }      
     }
