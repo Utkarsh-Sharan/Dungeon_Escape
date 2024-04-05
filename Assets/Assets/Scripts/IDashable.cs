@@ -1,4 +1,4 @@
 public interface IDashable
 {
-    public bool GotDashed { get; }
+    public bool HasDashed { get; set; }
 }

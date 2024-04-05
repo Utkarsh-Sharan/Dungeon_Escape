@@ -18,7 +18,7 @@ public class MossGiant : Enemy, IDamageable
         if(isDead)
             return;
         
-        if(player.GotDashed)
+        if(player.HasDashed)
         {
             Health = 0;
         }

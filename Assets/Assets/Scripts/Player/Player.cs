@@ -19,9 +19,9 @@ public class Player : MonoBehaviour, IDamageable, IDashable
     private bool _canDash = true;
     private bool _isDashing;
     private float _dashPower = 24f;
-    private float _dashingTime = 0.1f;
+    private float _dashingTime = 0.2f;
     private float _dashingCooldown = 1f;
-    public bool GotDashed { get; set; }
+    public bool HasDashed { get; set; }
 
     //Collectibles
     public int diamonds;
@@ -114,7 +114,7 @@ public class Player : MonoBehaviour, IDamageable, IDashable
         {
             _canDash = false;
             _isDashing = true;
-            GotDashed = true;
+            HasDashed = true;
             float originalGravity = _rigid.gravityScale;
             _rigid.gravityScale = 0;
 
@@ -131,7 +131,7 @@ public class Player : MonoBehaviour, IDamageable, IDashable
         yield return new WaitForSeconds(_dashingTime);
         _rigid.gravityScale = originalGravity;
         _isDashing = false;
-        GotDashed = false;
+        HasDashed = false;
 
         yield return new WaitForSeconds(_dashingCooldown);
         _canDash = true;
