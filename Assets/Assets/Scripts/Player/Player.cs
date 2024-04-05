@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour, IDamageable
+public class Player : MonoBehaviour, IDamageable, IDashable
 {
     //Health property
     public int Health { get; set; }
@@ -21,6 +21,7 @@ public class Player : MonoBehaviour, IDamageable
     private float _dashPower = 24f;
     private float _dashingTime = 0.1f;
     private float _dashingCooldown = 1f;
+    public bool GotDashed { get; set; }
 
     //Collectibles
     public int diamonds;
@@ -113,6 +114,7 @@ public class Player : MonoBehaviour, IDamageable
         {
             _canDash = false;
             _isDashing = true;
+            GotDashed = true;
             float originalGravity = _rigid.gravityScale;
             _rigid.gravityScale = 0;
 
@@ -129,6 +131,7 @@ public class Player : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(_dashingTime);
         _rigid.gravityScale = originalGravity;
         _isDashing = false;
+        GotDashed = false;
 
         yield return new WaitForSeconds(_dashingCooldown);
         _canDash = true;
