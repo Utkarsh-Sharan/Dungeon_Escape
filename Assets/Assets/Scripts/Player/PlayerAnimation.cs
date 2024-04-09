@@ -41,6 +41,11 @@ public class PlayerAnimation : MonoBehaviour
         _anim.SetTrigger("Attack");
     }
 
+    public void Dash()
+    {
+        _anim.SetTrigger("Dash");
+    }
+
     public void Dead()
     {
         _anim.SetTrigger("Death");

@@ -15,18 +15,18 @@ public class Skeleton : Enemy, IDamageable
 
     public void Damage()
     {
-        if (isDead)
+        if(isDead)
             return;
+
+        if(player.HasDashed)
+        {
+            Health = 0;
+        }
 
         Health--;
         anim.SetTrigger("Hit");
         isHit = true;
         anim.SetBool("InCombat", true);
-
-        if(player.isDead)
-        {
-            anim.SetBool("InCombat", false);
-        }
 
         if(Health < 1)
         {
