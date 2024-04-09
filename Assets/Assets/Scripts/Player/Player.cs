@@ -15,12 +15,13 @@ public class Player : MonoBehaviour, IDamageable, IDashable
     private bool _resetJump = false;
     private bool _grounded = false;
 
-    //Player dash
+    //Player dash 
+    [SerializeField] private TrailRenderer _trail;
     private bool _canDash = true;
     private bool _isDashing;
     private float _dashPower = 24f;
     private float _dashingTime = 0.2f;
-    private float _dashingCooldown = 1f;
+    private float _dashingCooldown = 5f;
     public bool HasDashed { get; set; }
 
     //Collectibles
@@ -117,6 +118,7 @@ public class Player : MonoBehaviour, IDamageable, IDashable
             HasDashed = true;
             float originalGravity = _rigid.gravityScale;
             _rigid.gravityScale = 0;
+            _trail.emitting = true;
 
             Vector2 inputDirection = _playerInputActions.Player.Movement.ReadValue<Vector2>();
             _rigid.velocity = new Vector2(inputDirection.x * _dashPower, 0f);
@@ -130,6 +132,7 @@ public class Player : MonoBehaviour, IDamageable, IDashable
     {
         yield return new WaitForSeconds(_dashingTime);
         _rigid.gravityScale = originalGravity;
+        _trail.emitting = false;
         _isDashing = false;
         HasDashed = false;
 
