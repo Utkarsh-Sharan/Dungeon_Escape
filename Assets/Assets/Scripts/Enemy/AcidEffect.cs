@@ -25,5 +25,10 @@ public class AcidEffect : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+
+        else if(other.tag == "Ground")
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

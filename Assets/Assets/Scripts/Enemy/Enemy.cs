@@ -16,7 +16,7 @@ public abstract class Enemy : MonoBehaviour
 
     //handles
     protected Animator anim;
-    protected SpriteRenderer sprite;
+    protected SpriteRenderer spriteRenderer;
     protected Player player;
 
     //bool checks
@@ -32,7 +32,7 @@ public abstract class Enemy : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         anim = GetComponentInChildren<Animator>();
-        sprite = GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     public virtual void Update()
@@ -73,13 +73,13 @@ public abstract class Enemy : MonoBehaviour
         }
 
         Vector3 direction = transform.position - player.transform.position;       //always face towards player when in combat
-        if(anim.GetBool("InCombat") == true && direction.x > 0.0f)
-        {
-            sprite.flipX = true;
+        if (anim.GetBool("InCombat") == true && direction.x > 0.0f)
+        {          
+            spriteRenderer.flipX = true;
         }
         else if(anim.GetBool("InCombat") == true && direction.x < 0.0f)
         {
-            sprite.flipX = false;
+            spriteRenderer.flipX = false;
         }
     }
 
@@ -87,11 +87,11 @@ public abstract class Enemy : MonoBehaviour
     {
         if (currentTarget == pointA.position)
         {
-            sprite.flipX = true;
+            spriteRenderer.flipX = true;
         }
         else if (currentTarget == pointB.position)
         {
-            sprite.flipX = false;
+            spriteRenderer.flipX = false;
         }
     }
 }
