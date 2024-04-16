@@ -155,6 +155,17 @@ public class Player : MonoBehaviour, IDamageable, IDashable
         }       
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag == "Spikes")
+        {
+            Health = 0;
+            UIManager.Instance.UpdateLives(Health);
+            isDead = true;
+            _playerAnimation.Dead();
+        }
+    }
+
     public void AddGems(int amount)
     {
         diamonds += amount;
