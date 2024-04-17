@@ -164,6 +164,11 @@ public class Player : MonoBehaviour, IDamageable, IDashable
             isDead = true;
             _playerAnimation.Dead();
         }
+
+        else if (other.CompareTag("Door"))
+        {
+            UIManager.Instance.LevelComplete();
+        }
     }
 
     public void AddGems(int amount)

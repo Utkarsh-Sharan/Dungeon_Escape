@@ -1,10 +1,9 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -26,6 +25,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _gemCountUI;
     [SerializeField] private Image _selectionImg;
     [SerializeField] private Image[] _healthBars = new Image[4];
+    [SerializeField] private GameObject[] _levelCompleteObjs = new GameObject[2];
 
     private void Awake()
     {
@@ -56,5 +56,21 @@ public class UIManager : MonoBehaviour
                 _healthBars[i].enabled = false;
             }
         }
+    }
+
+    public void LevelComplete()
+    {
+        _levelCompleteObjs[0].SetActive(true);
+        _levelCompleteObjs[1].SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

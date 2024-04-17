@@ -66,7 +66,7 @@ public abstract class Enemy : MonoBehaviour
         }
 
         float distance = Vector3.Distance(transform.position, player.transform.position);     //if distance > 2, enemies start moving again
-        if(distance > 2)
+        if(distance > 2 || player.isDead)
         {
             isHit = false;
             anim.SetBool("InCombat", false);
