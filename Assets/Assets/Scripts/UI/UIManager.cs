@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _gemCountUI;
     [SerializeField] private Image _selectionImg;
     [SerializeField] private Image[] _healthBars = new Image[4];
-    [SerializeField] private GameObject[] _levelCompleteObjs = new GameObject[2];
+    [SerializeField] private GameObject[] _gameOverObjects = new GameObject[3];
 
     private void Awake()
     {
@@ -60,8 +60,14 @@ public class UIManager : MonoBehaviour
 
     public void LevelComplete()
     {
-        _levelCompleteObjs[0].SetActive(true);
-        _levelCompleteObjs[1].SetActive(true);
+        _gameOverObjects[0].SetActive(true);
+        _gameOverObjects[1].SetActive(true);
+    }
+
+    public void PlayerDead()
+    {
+        _gameOverObjects[0].SetActive(true);
+        _gameOverObjects[2].SetActive(true);
     }
 
     public void RestartGame()

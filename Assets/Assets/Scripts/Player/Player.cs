@@ -151,6 +151,7 @@ public class Player : MonoBehaviour, IDamageable, IDashable
             {
                 isDead = true;
                 _playerAnimation.Dead();
+                UIManager.Instance.PlayerDead();
             }
         }       
     }
@@ -163,6 +164,7 @@ public class Player : MonoBehaviour, IDamageable, IDashable
             UIManager.Instance.UpdateLives(Health);
             isDead = true;
             _playerAnimation.Dead();
+            UIManager.Instance.PlayerDead();
         }
 
         else if (other.CompareTag("Door"))
